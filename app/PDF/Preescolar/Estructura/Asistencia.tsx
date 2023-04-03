@@ -31,18 +31,20 @@ function Asistencia({ data }: Props) {
       width: "26.5%",
       border: 1,
       marginTop: 5,
+      padding: "2%",
       textAlign: "center",
       fontSize: 10,
       fontWeight: "bold",
       marginLeft: -1,
     },
   };
+  console.log(data);
   return (
     <>
       <View style={style.table}>
         <View style={style.tableRow}>
-          <Text style={style.tableCellTitle}>Fallas</Text>
-          <Text style={style.tableCell}>{data?.asistencia?.length || 0}</Text>
+          <Text style={style.tableCellTitle}>Inasistencias del periodo</Text>
+          <Text style={style.tableCell}>{data?.length || 0}</Text>
         </View>
       </View>
     </>

@@ -64,7 +64,10 @@ function Comportamiento({ data }: Props) {
         </View>
         <View style={style.tableRow}>
           <Text style={style.tableCell2}>
-            {data?.comportamiento?.compo_observacion || ""}
+            {data?.comportamiento?.compo_observacion?.charAt(0)?.toUpperCase() +
+              data?.comportamiento?.compo_observacion
+                ?.slice(1)
+                ?.toLowerCase() || ""}
           </Text>
         </View>
       </View>

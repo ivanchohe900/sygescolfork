@@ -59,7 +59,6 @@ const Cabecera = ({ data }: Props) => {
     },
     tableColImage: {
       width: "10%",
-      height: "100%",
       borderStyle: "solid",
       borderWidth: 0,
       borderLeftWidth: 0,
@@ -81,16 +80,15 @@ const Cabecera = ({ data }: Props) => {
     },
     containerFoto: {
       width: "20%",
-      height: 120,
+      height: 60,
       border: 1,
       marginLeft: "2%",
-      marginTop: "3%",
     },
     foto: {
       width: 105,
       border: 1,
       margin: "auto",
-      height: 120,
+      height: 60,
     },
   };
   return (

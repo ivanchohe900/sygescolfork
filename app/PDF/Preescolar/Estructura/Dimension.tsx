@@ -219,7 +219,8 @@ function Dimension({ dimensiones, data }: Props) {
                                 marginTop: -1,
                               }}
                             >
-                              {pro.texto}
+                              {pro.texto.charAt(0).toUpperCase() +
+                                pro.texto.slice(1).toLowerCase()}
                             </Text>
                             <View
                               style={{
