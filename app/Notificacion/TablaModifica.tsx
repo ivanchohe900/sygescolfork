@@ -1,4 +1,7 @@
-import React from "react";
+"use client";
+import { useState } from "react";
+import BotonModifi from "./BotonModifi";
+import axios from "axios";
 
 const tableData = [
   {
@@ -17,10 +20,21 @@ const tableRows = tableData.map((data, index) => (
     <td className="px-6 py-4 text-white font-semibold">{data.Asignatura}</td>
     <td className="px-6 py-4 text-white font-semibold">{data.Grado}</td>
     <td className="px-6 py-4 text-white font-semibold">{data.TipoP}</td>
+    <td>
+      <BotonModifi />
+    </td>
   </tr>
 ));
 
 const TablaModifica = () => {
+  const [showInfo, setShowInfo] = useState({} as any);
+  axios
+    .get("/api/CierrePeriodo/InfoCierre", {
+      params: { IdDocente: 160, colegio: 2 },
+    })
+    .then((response) => console.log(response.data))
+    .catch((error) => console.error(error));
+
   return (
     <>
       <div className="relative font-bold m-3 overflow-x-auto shadow-lg sm:rounded-lg">
@@ -28,7 +42,7 @@ const TablaModifica = () => {
           <thead className="text-xs text-white uppercase bg-blue-600 dark:text-white">
             <tr>
               <th scope="col" className="px-6 py-3">
-                Docente
+                Docente {showInfo?.IdDocente || ""}
               </th>
               <th scope="col" className="px-6 py-3">
                 Asignatura
@@ -38,6 +52,9 @@ const TablaModifica = () => {
               </th>
               <th scope="col" className="px-6 py-3">
                 Tipo Pendiente
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Ver estudiantes
               </th>
             </tr>
           </thead>
