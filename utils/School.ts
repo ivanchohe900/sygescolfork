@@ -18,4 +18,5 @@ const School = () => [
   { label: "I.E.T Celmira Huertas", value: 4, TipoColegio: "Nuevo" },
   { label: "I.E. Niño Jesús de Praga", value: 3, TipoColegio: "Nuevo" },
 ];
+
 export default School;
