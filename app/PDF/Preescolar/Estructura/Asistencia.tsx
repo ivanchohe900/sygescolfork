@@ -38,7 +38,7 @@ function Asistencia({ data }: Props) {
       marginLeft: -1,
     },
   };
-  console.log(data);
+  // console.log(data);
   return (
     <>
       <View style={style.table}>
