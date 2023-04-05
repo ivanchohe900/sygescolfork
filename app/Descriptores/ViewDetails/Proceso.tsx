@@ -12,7 +12,7 @@ function Proceso({ showModal, id, contador, setContador }: Props) {
   const [data, setData] = useState({} as any);
   const handleDelete = async () => {
     const acepta = confirm(
-      "¿Esta seguro que desea eliminar este proceso?, tenga en cuenta que al eliminar este proceso, tambien se eliminará las calificaciones asociadas"
+      "¿Esta seguro que desea eliminar este proceso?, tenga en cuenta que al eliminarlo, tambien retirará de la planila las calificaciones asociadas"
     );
     if (acepta) {
       try {
@@ -90,7 +90,8 @@ function Proceso({ showModal, id, contador, setContador }: Props) {
                 Información sobre el proceso
               </div>
               <div className="container mx-auto font-bold text-2xl w-10/12">
-                {data?.texto}
+                {data?.texto?.charAt(0)?.toUpperCase() +
+                  data?.texto?.slice(1)?.toLowerCase()}
               </div>
             </div>
             <div>

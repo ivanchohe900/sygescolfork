@@ -1,4 +1,4 @@
-import { Image, Text, View } from "@react-pdf/renderer";
+import { Image, Text, View, Canvas } from "@react-pdf/renderer";
 import React from "react";
 export type Props = {
   firma: any;
@@ -7,13 +7,13 @@ const Firmas = ({ firma }: Props) => {
   return (
     <>
       <View style={{ width: "100%" }}>
-        <View style={{ marginHorizontal: "30%", marginTop: -30 }}>
-          {firma && <Image style={{ width: 200 }} src={firma || ""} />}
-        </View>
         {/* {(firma && <Text style={{ margin: "1%" }}>_________________</Text>) || (
           <Text style={{ margin: "10%" }}>_________________</Text>
         )} */}
 
+        <View style={{ marginHorizontal: "30%", marginTop: -30 }}>
+          {firma && <Image style={{ width: 200 }} src={firma || ""} />}
+        </View>
         <Text style={{ margin: "auto", fontSize: 12, marginTop: -15 }}>
           {JSON.parse(localStorage?.datosUsu)?.nombre}
         </Text>
