@@ -10,7 +10,7 @@ export default async function VerificarFechas(school: any) {
     const conexion = conecctions[selectSchool?.value];
 
     // fecha actual
-    const dateActual = new Date();
+    const dateActual: any = new Date();
 
     const dateAnterior = new Date();
     //  dateAnterior  = a fecha actual menos 1 dia formato año-mes-dia
@@ -18,7 +18,7 @@ export default async function VerificarFechas(school: any) {
     const newDateAnterior = dateAnterior?.setDate(dateAnterior?.getDate() - 1);
     // ponerla en formato año-mes-dia
 
-    const GruposCerrar = [];
+    const GruposCerrar: any = [];
 
     if (selectSchool?.TipoColegio == "Antiguo") {
       if (selectSchool?.label == "I.E.T. Sagrada Familia") {
@@ -32,7 +32,7 @@ export default async function VerificarFechas(school: any) {
         );
 
         const periodo_academicosQuery: any = conexion.query(
-          `SELECT periodo_academicos.nivel,periodo_academicos.fin_ing_notas,per_id FROM periodo_academicos        
+          `SELECT periodo_academicos.nivel,periodo_academicos.fin_ing_notas,per_id FROM periodo_academicos
             `
         );
 
@@ -131,13 +131,57 @@ export default async function VerificarFechas(school: any) {
         GruposCerrar.push(...NewData);
       }
     } else {
+      if (selectSchool?.TipoColegio == "Nuevo") {
+        if (selectSchool?.label == "I.E. Leonidas Rubio Villegas") {
+          const [GradosNivel]: any = await conexion.query(
+            `SELECT grupo_nombre, v_grupos.grupo_sede, grados.nivel, v_grupos.grupo_id as GrupoId,periodo_academicos.nivel,periodo_academicos.fin_ing_notas,periodo_academicos.per_id FROM v_grupos INNER JOIN grados ON v_grupos.grado_base = grados.id_grado inner join periodo_academicos on periodo_academicos.sede=v_grupos.grupo_sede AND periodo_academicos.nivel = grados.nivel ORDER BY grados.nivel ASC, v_grupos.grupo_sede ASC
+              `
+          );
+
+          // console.log("GradosNivel", GradosNivel);
+
+          // fecha actual en formato año-mes-dia y al dia restarle 1
+
+          const DataNormalizada = GradosNivel?.reduce((acc: any, el: any) => {
+            const dateFin = el?.fin_ing_notas.toISOString().substring(0, 10);
+
+            // generar año mes dias de la fecha actual
+            const NewdateActual = new Date(newDateAnterior)
+              .toISOString()
+              .substring(0, 10);
+
+            // console.log(dateFin, "===", NewdateActual);
+
+            if (dateFin == NewdateActual) {
+              const key = `${el.grupo_nombre}`;
+
+              if (!acc[key]) {
+                acc[key] = {
+                  grupo_nombre: el.grupo_nombre,
+                  grupo_sede: el.grupo_sede,
+                  NuevoLvl: el.nivel,
+                  periodo: el.per_id,
+                  FinNotas: `${el?.fin_ing_notas}`,
+                  GrupoId: el.GrupoId,
+                };
+              }
+
+              return acc;
+            }
+
+            return acc;
+          }, {});
+
+          // console.log("DataNormalizada", DataNormalizada);
+
+          if (Object.keys(DataNormalizada).length > 0) {
+            GruposCerrar.push(...(Object.values(DataNormalizada) || []));
+          }
+        }
+      }
     }
 
-    //   const [StructurePeriodoAcademico]: any =
-    //     await conexion.query(`DESCRIBE periodo_academicos
-    //     `);
-
-    //   console.log(StructurePeriodoAcademico);
+    // console.log("GruposCerrar", GruposCerrar);
 
     return { GruposCerrar: GruposCerrar || [] };
   } catch (error) {

@@ -55,18 +55,17 @@ const PersonalInfo = ({ data, grup }: Props) => {
     },
     containerFoto: {
       width: "20%",
-      height: 120,
+      height: 90,
       border: 1,
       marginLeft: "2%",
       marginTop: "3%",
-      marginBottom: "1%",
+      marginBottom: 10,
     },
     foto: {
       width: "20%",
       border: 1,
       margin: "auto",
       height: 120,
-      marginBottom: "1%",
     },
   };
   return (

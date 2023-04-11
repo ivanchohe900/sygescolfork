@@ -21,7 +21,7 @@ export async function GET(req: any) {
       `SELECT grupo_nombre AS grupo, jornada_nombre AS jornada, sede_nombre AS sede FROM v_grupos INNER JOIN sedes ON grupo_sede = sede_consecutivo WHERE grupo_id = ${grupo}`
     );
     const [asistencia]: any = await conexion.query(
-      "SELECT * FROM inasistencia WHERE cga_id = 0 AND ina_tipo LIKE 'INJ'"
+      "SELECT * FROM inasistencia WHERE cga_id = 0 AND tipo_ina LIKE 'I'"
     );
     const [periodo]: any = await conexion.query(
       `SELECT periodo_academicos.per_id, per_nombre FROM periodo_academicos INNER JOIN periodo_fechas ON periodo_academicos.per_id = periodo_fechas.per_id  INNER JOIN v_grupos ON v_grupos.per_con_id = periodo_academicos.per_con_id INNER JOIN grados ON v_grupos.grado_base = grados.id_grado AND grados.nivel = periodo_academicos.nivel WHERE grupo_id = ${grupo} AND periodo_academicos.inicio_ing_notas <= CURDATE() AND periodo_academicos.fin_ing_notas >= CURDATE()`
@@ -69,8 +69,9 @@ export async function GET(req: any) {
         (com: any) => com.matri_id == est.matricula
       );
       const asistenciaEstu = asistencia.filter(
-        (as: any) => (as.matri_id = est.matricula)
+        (as: any) => as.matri_id == est.matricula
       );
+      // console.log(asistenciaEstu.lenght);
       await axios
         .post(
           `${
@@ -91,7 +92,7 @@ export async function GET(req: any) {
               notas: notasEstu,
               observaciones: observacionesEstu,
               comportamiento: comportamientoEstu,
-              asistencia: asistenciaEstu,
+              asistencia: asistenciaEstu || [],
             });
           }
         })
@@ -104,7 +105,7 @@ export async function GET(req: any) {
             notas: notasEstu,
             observaciones: observacionesEstu,
             comportamiento: comportamientoEstu,
-            asistencia: asistenciaEstu,
+            asistencia: asistenciaEstu || [],
           });
         });
     }

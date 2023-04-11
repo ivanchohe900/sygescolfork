@@ -71,7 +71,11 @@ function BodyComponent({
     {
       name: "Proceso",
       selector: (row: any) => (
-        <div className="text-justify text-lg">{row.texto || ""}</div>
+        <div className="text-justify text-lg">
+          {" "}
+          {row?.texto?.charAt(0)?.toUpperCase() +
+            row?.texto?.slice(1)?.toLowerCase()}
+        </div>
       ),
       sortable: true,
       wrap: true,
