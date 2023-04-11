@@ -28,6 +28,7 @@ const tableRows = tableData.map((data, index) => (
 
 const TablaModifica = () => {
   const [showInfo, setShowInfo] = useState({} as any);
+  const [data, setData] = useState({});
   axios
     .get("/api/CierrePeriodo/InfoCierre", {
       params: { IdDocente: 160, colegio: 2 },
