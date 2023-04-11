@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import TablaModifica from "./TablaModifica";
+import BotonGrados from "./BotonGrados";
 
 const BodyComponent = () => {
   const handleClick = () => {
@@ -25,7 +26,7 @@ const BodyComponent = () => {
           pendiente:
         </p>
       </div>
-      <TablaModifica />
+      <BotonGrados />
       <div className="w-16 h-8 py-1 px-2 ml-3 font-bold text-center text-white rounded-md bg-blue-500 shadow-lg">
         <button onClick={handleClick}>Enviar</button>
       </div>
