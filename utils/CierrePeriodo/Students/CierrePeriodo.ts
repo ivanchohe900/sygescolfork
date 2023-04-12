@@ -123,6 +123,8 @@ export default async function CierrePeriodo(colegio: any, grupos: any) {
       (item: any) => item.nombre.includes("Proceso de Evaluación")
     )?.texto;
 
+    // console.log(GetConfiguracion);
+
     if (GetConfiguracion?.forder == "S") {
       const [DcneQueryFordeb]: any = await conexion.query(
         `SELECT fordeb.fordeb_id as FordebId,fordeb.cga_id ,fordeb.fordeb_tipo,fordeb_banco.asignatura_id,fordeb_banco.dcne_id, fordeb_banco.fordeb_desc ,fordeb_banco.peri_id, fordeb.esca_nac_id AS escala,fordeb_banco.fordeb_id as IdBanco FROM fordeb LEFT JOIN fordeb_banco ON (fordeb_banco.fordeb_id=fordeb.fordeb_subid) WHERE fordeb.cga_id in (${DcneFindCga}) and fordeb_banco.peri_id='${periodo}'`
