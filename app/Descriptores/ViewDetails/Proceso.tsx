@@ -12,7 +12,7 @@ function Proceso({ showModal, id, contador, setContador }: Props) {
   const [data, setData] = useState({} as any);
   const handleDelete = async () => {
     const acepta = confirm(
-      "¿Esta seguro que desea eliminar este proceso?, tenga en cuenta que al eliminarlo, tambien retirará de la planila las calificaciones asociadas"
+      "¿Esta seguro que desea eliminar este proceso?, tenga en cuenta que al eliminarlo, tambien retirará de la planila las calificaciones asociadas y la información del banco de procesos"
     );
     if (acepta) {
       try {

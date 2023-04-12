@@ -11,7 +11,10 @@ export async function GET(req: any) {
     //   `DELETE newProcesosEvaluacion.*, newProcesoEstudiante.* FROM newProcesosEvaluacion INNER JOIN newProcesoEstudiante ON newProcesosEvaluacion.id = newProcesoEstudiante.id WHERE newProcesosEvaluacion.id = ${id}`
     // );
     const [elimina] = await conexion.query(
-      `DELETE newProcesosEvaluacion.*, newProcesoEstudiante.* FROM newProcesosEvaluacion LEFT JOIN newProcesoEstudiante ON newProcesosEvaluacion.id = newProcesoEstudiante.id WHERE newProcesosEvaluacion.id = ${id}`
+      `DELETE newProcesosEvaluacion.*, newProcesoEstudiante.* FROM newProcesosEvaluacion LEFT JOIN newProcesoEstudiante ON newProcesosEvaluacion.id = newProcesoEstudiante.id INNER JOIN newBancoProcesos ON newBancoProcesos.id = newProcesosEvaluacion.relacionBanco WHERE newProcesosEvaluacion.id = ${id}`
+    );
+    console.log(
+      `DELETE newProcesosEvaluacion.*, newProcesoEstudiante.* FROM newProcesosEvaluacion LEFT JOIN newProcesoEstudiante ON newProcesosEvaluacion.id = newProcesoEstudiante.id INNER JOIN newBancoProcesos ON newBancoProcesos.id = newProcesosEvaluacion.relacionBanco WHERE newProcesosEvaluacion.id = ${id}`
     );
     return NextResponse.json(
       {
