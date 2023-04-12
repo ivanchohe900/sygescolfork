@@ -1,6 +1,7 @@
 "use client";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import ReactSelect from "react-select";
 import Swal from "sweetalert2";
 export type Props = {
   showModal: any;
@@ -11,6 +12,7 @@ export type Props = {
 };
 function Proceso({ showModal, id, contador, setContador }: Props) {
   const [data, setData] = useState({} as any);
+  const [editar, setEditar] = useState(false);
   const handleDelete = async (escala: any) => {
     Swal.fire({
       title: `¿Esta seguro que desea eliminar este proceso?`,
@@ -45,14 +47,68 @@ function Proceso({ showModal, id, contador, setContador }: Props) {
             })
             .catch((error) => {
               console.log(error);
-              alert("Existe un error en la eliminación de la observación");
+              alert("Existe un error en la eliminación del proceso");
             });
         } catch (error) {
           console.log(error);
-          alert("Existe un error en la eliminación de la observación");
+          alert("Existe un error en la eliminación del proceso");
         }
       }
     });
+  };
+  const handleEdit = async () => {
+    if (!data?.texto) {
+      Swal.fire({
+        icon: "warning",
+        title: "Señor Usuario",
+        text: "El proceso no puede enviarse vacio al editar",
+        timer: 2500,
+        showConfirmButton: false,
+      });
+      return false;
+    }
+    try {
+      axios
+        .post(`/api/ProcesosEvaluacion/Edit`, {
+          i: data.relacionBanco,
+          c: localStorage.getItem("colegio"),
+          t: data.texto,
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: res.data.body,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            // alert(res.data.body);
+            setContador(contador + 1);
+            setEditar(false);
+            showModal(false);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          Swal.fire({
+            icon: "error",
+            title: "Señor Usuario",
+            text: "Existe un error al editar la información",
+            timer: 2500,
+            showConfirmButton: false,
+          });
+        });
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Señor Usuario",
+        text: "Existe un error al editar la información",
+        timer: 2500,
+        showConfirmButton: false,
+      });
+    }
   };
   const getData = async () => {
     await axios
@@ -123,6 +179,14 @@ function Proceso({ showModal, id, contador, setContador }: Props) {
           </div>
           <div className="flex flex-row justify-center gap-4">
             <button
+              className="border-2 border-green-600 text-green-600 hover:bg-green-800 hover:text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+              onClick={() => {
+                setEditar(true);
+              }}
+            >
+              Editar
+            </button>
+            <button
               className="border-2 border-red-600 text-red-600 hover:bg-red-800 hover:text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110"
               onClick={() => {
                 handleDelete(
@@ -141,6 +205,72 @@ function Proceso({ showModal, id, contador, setContador }: Props) {
           </div>
         </div>
       </div>
+      {editar && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2 className="bg-blue-800 rounded-lg font-medium text-white py-1 text-center">
+              Editar proceso
+            </h2>
+            <div className="flex flex-row items-center gap-2 my-3">
+              <p className="text-lg font-medium">Proceso:</p>
+              <textarea
+                className="w-full border-[1px] border-gray-500 p-2 rounded-lg focus-visible:border-double focus-visible:border-[#2684FF] focus-visible:border-[0.4rem] focus-visible:outline-[#2684FF]/10"
+                name="texto"
+                id="Nombre"
+                defaultValue={data?.texto}
+                placeholder="Ingrese un proceso"
+                onChange={(e: any) => {
+                  setData({
+                    ...data,
+                    [e.target.name]: e.target.value,
+                  });
+                }}
+              />
+            </div>
+            <div className="flex flex-row justify-center gap-4">
+              <button
+                className="border-2 border-blue-600 text-blue-600 hover:bg-blue-800 hover:text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+                onClick={() => handleEdit()}
+              >
+                Editar
+              </button>
+              <button
+                onClick={() => setEditar(false)}
+                className="border-2 border-blue-600 text-blue-600 hover:bg-blue-800 hover:text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+              >
+                Cerrar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      <style jsx>{`
+        .modal-overlay {
+          padding: 1rem;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.5);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .modal {
+          background-color: white;
+          padding: 1rem;
+          border-radius: 0.5rem;
+          width: 30%;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+        }
+
+        .modal h2 {
+          margin-top: 0;
+          font-size: 1.5rem;
+        }
+      `}</style>
     </div>
   );
 }
