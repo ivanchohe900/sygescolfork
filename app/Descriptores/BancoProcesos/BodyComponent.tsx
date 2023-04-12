@@ -5,6 +5,7 @@ import ReactSelect from "react-select";
 import DataTable from "react-data-table-component";
 import { customStyles } from "../../../utils/CustomStylesTables";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export type Props = {
   cga: number;
@@ -99,13 +100,23 @@ function BodyComponent({
   ];
   const handleSave = async () => {
     if (!values?.escala) {
-      alert(
-        "Debe seleccionar la Escala Nacional a la cual desea asociar el proceso"
-      );
+      Swal.fire({
+        icon: "warning",
+        title: "Señor Usuario",
+        text: "Es necesario que seleccione la escala nacional",
+        timer: 2500,
+        showConfirmButton: false,
+      });
       return false;
     }
     if (!values?.texto) {
-      alert("Debe ingresar el texto del proceso");
+      Swal.fire({
+        icon: "warning",
+        title: "Señor Usuario",
+        text: "Es necesario que ingrese el texto del proceso",
+        timer: 2500,
+        showConfirmButton: false,
+      });
       return false;
     }
     axios
@@ -113,7 +124,13 @@ function BodyComponent({
         `/api/ProcesosEvaluacion/Banco/Save?colegio=${localStorage.colegio}&cga=${cga}&escala=${values.escala}&texto=${values.texto}`
       )
       .then((res: any) => {
-        alert(res.data?.body);
+        Swal.fire({
+          icon: "success",
+          title: res.data.body,
+          timer: 2500,
+          showConfirmButton: false,
+          position: "top-end",
+        });
         setContador(contador + 1);
         setShowModal(false);
       });
@@ -129,12 +146,19 @@ function BodyComponent({
           setCont(contador1 + 1);
           setShow(false);
         } else {
-          alert(res.data?.body);
+          Swal.fire({
+            icon: "error",
+            text: res.data.body,
+            timer: 2500,
+            showConfirmButton: false,
+            position: "top-end",
+          });
         }
       });
   };
   function handleClick() {
     setShowModal(true);
+    setValues({ ...values, texto: null, escala: null });
   }
   // console.log("showModal=========", showModal);
 
