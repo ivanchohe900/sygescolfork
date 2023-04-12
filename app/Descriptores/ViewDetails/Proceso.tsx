@@ -1,6 +1,7 @@
 "use client";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 export type Props = {
   showModal: any;
   id: any;
@@ -10,35 +11,48 @@ export type Props = {
 };
 function Proceso({ showModal, id, contador, setContador }: Props) {
   const [data, setData] = useState({} as any);
-  const handleDelete = async () => {
-    const acepta = confirm(
-      "¿Esta seguro que desea eliminar este proceso?, tenga en cuenta que al eliminarlo, tambien retirará de la planila las calificaciones asociadas y la información del banco de procesos"
-    );
-    if (acepta) {
-      try {
-        axios
-          .get(
-            `/api/ProcesosEvaluacion/Delete?i=${id}&c=${localStorage.getItem(
-              "colegio"
-            )}`
-          )
-          .then((res) => {
-            // console.log(res.data);
-            if (res.status == 200) {
-              alert(res.data.body);
-              setContador(contador + 1);
-              showModal(false);
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-            alert("Existe un error en la eliminación de la observación");
-          });
-      } catch (error) {
-        console.log(error);
-        alert("Existe un error en la eliminación de la observación");
+  const handleDelete = async (escala: any) => {
+    Swal.fire({
+      title: `¿Esta seguro que desea eliminar este proceso?`,
+      text: `Tenga en cuenta que el concepto será eliminado en los estudiantes a que han sido asignado y del banco de procesos. Por lo tanto deberá volver a calificar en esta dimensión en el desempeño ${escala}.`,
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: "Eliminar",
+      denyButtonText: `Cancelar`,
+    }).then((result: any) => {
+      if (result.isConfirmed) {
+        try {
+          axios
+            .get(
+              `/api/ProcesosEvaluacion/Delete?i=${id}&c=${localStorage.getItem(
+                "colegio"
+              )}`
+            )
+            .then((res) => {
+              // console.log(res.data);
+              if (res.status == 200) {
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: res.data.body,
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                // alert(res.data.body);
+                setContador(contador + 1);
+                showModal(false);
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+              alert("Existe un error en la eliminación de la observación");
+            });
+        } catch (error) {
+          console.log(error);
+          alert("Existe un error en la eliminación de la observación");
+        }
       }
-    }
+    });
   };
   const getData = async () => {
     await axios
@@ -111,7 +125,9 @@ function Proceso({ showModal, id, contador, setContador }: Props) {
             <button
               className="border-2 border-red-600 text-red-600 hover:bg-red-800 hover:text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110"
               onClick={() => {
-                handleDelete();
+                handleDelete(
+                  desempeño.find((des: any) => des.value == data?.escala)?.label
+                );
               }}
             >
               Eliminar
