@@ -20,6 +20,7 @@
     "react-select": "5.7.0",
     "react-tailwindcss-datepicker": "1.5.1",
     "styled-components": "5.3.6",
+    "sweetalert2": "^11.7.3",
     "tailwind-scrollbar-hide": "1.1.7",
     "yup": "1.0.2"
   },
