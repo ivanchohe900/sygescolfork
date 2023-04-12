@@ -17,7 +17,9 @@ const BodyComponent = () => {
   const [showInfo, setShowInfo] = useState({} as any);
   const [size, setSize] = useState(null);
   const [data, setData] = useState(null as any);
+
   const handleOpen = (value: any) => setSize(value);
+
   const getDataPendiente = async () => {
     axios
       .post(`/api/CierrePeriodo/ConsultaAdmin`, {
@@ -25,6 +27,8 @@ const BodyComponent = () => {
       })
       .then((res: any) => {
         if (res.status == 200) {
+          console.log(res.data);
+
           setData(res.data);
         }
       })
@@ -40,7 +44,7 @@ const BodyComponent = () => {
   return (
     <>
       <div className="mx-16">
-        <Fragment>
+        <>
           {data &&
             data?.pendiente?.map((button: any, index: any) => (
               <Button
@@ -63,7 +67,6 @@ const BodyComponent = () => {
             ))}
           <Dialog
             // open={open}
-            className="overflow-y-scroll h-96"
             open={size === "xl"}
             size={size || "xl"}
             handler={handleOpen}
@@ -81,7 +84,9 @@ const BodyComponent = () => {
               el fin de establecer  los pendientes y asignárseles la valoración
               definida para esta Institución.
             </DialogBody>
-            <Tabla data={showInfo?.Pendiente} />
+            <div className="max-h-[31vh]  lg:max-h-[60vh] overflow-auto">
+              <Tabla data={showInfo?.Pendiente} />
+            </div>
             <DialogFooter>
               {[
                 {
@@ -102,7 +107,7 @@ const BodyComponent = () => {
               ))}
             </DialogFooter>
           </Dialog>
-        </Fragment>
+        </>
         <div className="mt-10 text-center">
           <BotonPermiso />
         </div>
