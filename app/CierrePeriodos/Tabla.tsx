@@ -11,12 +11,62 @@ export type Props = {
   data: any;
 };
 const Tabla = ({ data }: Props) => {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(!open);
+  const [open, setOpen] = useState({
+    status: false,
+    Estudiantes: [],
+  });
 
   return (
     <>
-      <table className="border-collapse w-full">
+      <Dialog
+        className="overflow-y-scroll h-86"
+        open={open?.status}
+        handler={() => {
+          setOpen({
+            status: false,
+            Estudiantes: [],
+          });
+        }}
+      >
+        <DialogHeader>Listado Estudiantes</DialogHeader>
+        <DialogBody divider>
+          <div className="max-h-[30vh] lg:max-h-[70vh]  overflow-auto">
+            {open?.Estudiantes?.map((item: any, index: number) => {
+              return (
+                <p key={index}>
+                  {item.Nombre} {item.Apellido}
+                </p>
+              );
+            })}
+          </div>
+          {/* <p>Hugo Hernandez</p>
+                          <p>Paco Jimenez</p>
+                          <p>Luis Chaverra</p> */}
+        </DialogBody>
+        <DialogFooter>
+          <Button
+            variant="text"
+            color="red"
+            onClick={() => {
+              setOpen({
+                status: false,
+                Estudiantes: [],
+              });
+            }}
+            className="mr-1"
+          >
+            <span>Cancel</span>
+          </Button>
+          {/* <Button
+                        variant="gradient"
+                        color="green"
+                        onClick={handleOpen}
+                      >
+                        <span>Confirm</span>
+                      </Button> */}
+        </DialogFooter>
+      </Dialog>
+      <table className=" border-collapse w-full ">
         <thead>
           <tr>
             <th className="p-3 font-bold uppercase bg-gray-200 text-gray-600 border border-gray-300 hidden lg:table-cell">
@@ -33,7 +83,7 @@ const Tabla = ({ data }: Props) => {
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className=" ">
           {data?.map((item: any, index: number) => (
             <tr
               key={index}
@@ -66,38 +116,17 @@ const Tabla = ({ data }: Props) => {
                 {(item?.matri_id != 0 && (
                   <>
                     <Fragment>
-                      <Button onClick={handleOpen} variant="gradient">
+                      <Button
+                        onClick={() => {
+                          setOpen({
+                            status: true,
+                            Estudiantes: item.estudiantes,
+                          });
+                        }}
+                        variant="gradient"
+                      >
                         Ver
                       </Button>
-                      <Dialog
-                        className="overflow-y-scroll h-86"
-                        open={open}
-                        handler={handleOpen}
-                      >
-                        <DialogHeader>Listado Estudiantes</DialogHeader>
-                        <DialogBody divider>
-                          <p>Hugo Hernandez</p>
-                          <p>Paco Jimenez</p>
-                          <p>Luis Chaverra</p>
-                        </DialogBody>
-                        <DialogFooter>
-                          <Button
-                            variant="text"
-                            color="red"
-                            onClick={handleOpen}
-                            className="mr-1"
-                          >
-                            <span>Cancel</span>
-                          </Button>
-                          {/* <Button
-                        variant="gradient"
-                        color="green"
-                        onClick={handleOpen}
-                      >
-                        <span>Confirm</span>
-                      </Button> */}
-                        </DialogFooter>
-                      </Dialog>
                     </Fragment>
                   </>
                 )) || <>---</>}
