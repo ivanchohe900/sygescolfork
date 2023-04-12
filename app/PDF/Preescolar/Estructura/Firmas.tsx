@@ -12,7 +12,7 @@ const Firmas = ({ firma }: Props) => {
         )} */}
 
         <View style={{ marginHorizontal: "30%", marginTop: -30 }}>
-          {firma && <Image style={{ width: 200 }} src={firma || ""} />}
+          {/* {firma && <Image style={{ width: 200 }} src={firma || ""} />} */}
         </View>
         <Text style={{ margin: "auto", fontSize: 12, marginTop: -15 }}>
           {JSON.parse(localStorage?.datosUsu)?.nombre}

@@ -81,7 +81,7 @@ const BodyComponent = () => {
             </DialogHeader>
             <DialogBody divider>
               Este proceso permite filtrar las planillas de calificaciones, con
-              el fin de establecer  los pendientes y asignárseles la valoración
+              el fin de establecer los pendientes y asignárseles la valoración
               definida para esta Institución.
             </DialogBody>
             <div className="max-h-[31vh]  lg:max-h-[60vh] overflow-auto">
