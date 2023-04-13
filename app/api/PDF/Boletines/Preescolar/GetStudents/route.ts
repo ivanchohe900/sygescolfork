@@ -31,7 +31,7 @@ export async function GET(req: any) {
       `SELECT cga.i AS id, aintrs.b AS asignatura, aes.b AS Area, cga.u AS Horas FROM cga INNER JOIN aintrs ON aintrs.i = cga.a INNER JOIN efr ON aintrs.g = efr.i INNER JOIN aes ON efr.a = aes.i  INNER JOIN v_grupos ON cga.b = v_grupos.grupo_id WHERE cga.b = ${grupo} AND grado_base = 0`
     );
     const [comportamiento]: any = await conexion.query(
-      `SELECT compo_observacion, compo_nota_num_def, matri_id, per_id, esca_nac_nombre FROM comportamiento INNER JOIN escala_nacional ON escala_nacional.esca_nac_id = comportamiento.esca_nac_id_def WHERE per_id = '${periodo[0]?.per_id}'`
+      `SELECT compo_observacion, compo_nota_num_def, matri_id, per_id, esca_nac_nombre FROM comportamiento INNER JOIN escala_nacional ON escala_nacional.esca_nac_id = comportamiento.esca_nac_id_def WHERE per_id = '1'`
     );
     const formatCga = cga?.reduce((acc: any, item: any) => {
       let key = `${item.Area}`;
@@ -52,10 +52,10 @@ export async function GET(req: any) {
 
     // console.log(formatCga);
     const [notas]: any = await conexion.query(
-      `SELECT PE.escala, texto, estudiante, NEP.cga AS Asignatura FROM newProcesoEstudiante NEP INNER JOIN newProcesosEvaluacion PE ON NEP.proceso = PE.id INNER JOIN newBancoProcesos BP ON BP.id = PE.relacionBanco WHERE NEP.periodo = ${periodo[0]?.per_id}`
+      `SELECT PE.escala, texto, estudiante, NEP.cga AS Asignatura FROM newProcesoEstudiante NEP INNER JOIN newProcesosEvaluacion PE ON NEP.proceso = PE.id INNER JOIN newBancoProcesos BP ON BP.id = PE.relacionBanco WHERE NEP.periodo = 1`
     );
     const [observaciones]: any = await conexion.query(
-      `SELECT estudiante, texto, NOE.cga AS Asignatura FROM newObservacionesEstudiante NOE INNER JOIN newObservacionesProcesos NOP ON NOE.observacion = NOP.id INNER JOIN newBancoObservacionesProcesos NBOP ON NBOP.id = NOP.relacionBanco WHERE NOE.periodo = ${periodo[0]?.per_id}`
+      `SELECT estudiante, texto, NOE.cga AS Asignatura FROM newObservacionesEstudiante NOE INNER JOIN newObservacionesProcesos NOP ON NOE.observacion = NOP.id INNER JOIN newBancoObservacionesProcesos NBOP ON NBOP.id = NOP.relacionBanco WHERE NOE.periodo = 1`
     );
     const studentFormat: any = [];
     for await (const est of estudiante) {

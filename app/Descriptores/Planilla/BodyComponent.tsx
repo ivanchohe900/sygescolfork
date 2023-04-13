@@ -239,7 +239,7 @@ function BodyComponent() {
             "No se ha seleccionado una dimensión"}
         </div>
         <div className="rounded-lg border-2 border-blue-600 text-center w-full py-2 px-4 font-bold">
-          {(data && data?.info?.periodo?.per_nombre) || ""}
+          Periodo: {(data && data?.info?.periodo?.per_nombre) || ""}
         </div>
         <div className="rounded-lg border-2 border-blue-600 text-center w-full py-2 px-4 font-bold">
           Grupo: {data && data?.grupo?.grupo_nombre}
