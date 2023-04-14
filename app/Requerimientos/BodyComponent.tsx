@@ -1,13 +1,13 @@
 "use client";
 import React from "react";
 import Encabezado from "./Encabezado";
-import Form from "./Form";
+import Crads from "./Crads";
 
 const BodyComponent = () => {
   return (
     <>
       <Encabezado />
-      <Form />
+      <Crads />
     </>
   );
 };
