@@ -73,13 +73,11 @@ const BodyComponent = () => {
         </div>
         <p className="font-bold text-lg mb-2">Señor Profesor Brahian Orozco:</p>
         <p className="text-justify font-semibold mb-4">
-          En el proceso de cierre del 2 periodo académico, el sistema ha
+          En el proceso de cierre del 1 periodo académico, el sistema a
           detectado algunos pendientes de registro en los módulos asignados a su
           rol, los cuales describiremos a continuación de manera detallada, para
-          que por favor, los verifique y solicite a través de esta interfaz, un
-          permiso individual a su Coordinador Académico, permiso con el cual,
-          podrá ingresar nuevamente a los módulos donde se encuentra el
-          pendiente:
+          que por favor los verifique, ingrese a la planilla(s) y realice las
+          actualizaciones correspondientes.
         </p>
       </div>
       {Data?.length > 0 &&
