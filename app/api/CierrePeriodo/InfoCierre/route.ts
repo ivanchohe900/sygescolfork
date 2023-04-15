@@ -5,12 +5,29 @@ export async function GET(req: any) {
   const { searchParams } = new URL(req.url);
   const IdDocente: any = searchParams.get("IdDocente");
   const colegio: any = searchParams.get("colegio");
+  const IdRol: any = searchParams.get("IdRol");
 
   try {
+    if (!IdDocente || !colegio || !IdRol) {
+      return NextResponse.json(
+        { body: "Parametros incorrectos" },
+        {
+          status: 200,
+        }
+      );
+    }
+    if (IdRol != "3") {
+      return NextResponse.json(
+        { body: "El usuario no es un docente" },
+        {
+          status: 200,
+        }
+      );
+    }
     const conexion = conecctions[colegio];
 
     const [AuditoriaDocente]: any = await conexion.query(
-      `SELECT * FROM auditoriaPeriodos WHERE dcne_id = '${IdDocente}' and estado='1' `
+      `SELECT auditoriaPeriodos.id as IdAuditoria,auditoriaPeriodos.tipo_pendiente,auditoriaPeriodos.matri_id,v_grupos.grupo_nombre,v_grupos.jornada_nombre,concat(dcne.dcne_ape1," ",dcne.dcne_ape2) as Apellidos, concat(dcne.dcne_nom1," ",dcne.dcne_nom2) as Nombre,aintrs.b AS asignatura, cga.i AS cga FROM auditoriaPeriodos INNER JOIN v_grupos ON auditoriaPeriodos.grupo_id=v_grupos.grupo_id INNER JOIN dcne ON dcne.i=auditoriaPeriodos.dcne_id inner join cga on cga.i=auditoriaPeriodos.cga_id INNER JOIN aintrs ON aintrs.i = cga.a  WHERE auditoriaPeriodos.dcne_id = ${IdDocente} and auditoriaPeriodos.estado='1' `
     );
 
     if (AuditoriaDocente?.length == 0) {
@@ -48,11 +65,12 @@ export async function GET(req: any) {
     // console.log("AllData", AllData);
 
     const DataNormalizada: any = AllData?.reduce((acc: any, el: any) => {
-      const key = `${el.tipo_pendiente}`;
+      const key = `${el.grupo_nombre}`;
 
       if (!acc[key]) {
         acc[key] = {
-          TipoPendiente: el.tipo_pendiente,
+          GrupoNombre: el.grupo_nombre,
+          IdAuditoria: el.IdAuditoria,
           pendientes: [],
         };
       }
@@ -63,7 +81,7 @@ export async function GET(req: any) {
     }, {});
 
     return NextResponse.json(
-      { body: Object.values(DataNormalizada) || [] },
+      { Pendientes: Object.values(DataNormalizada) || [] },
       {
         status: 200,
       }

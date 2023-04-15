@@ -15,41 +15,36 @@ const BotonModifi = () => {
   const handleOpen = () => setOpen((cur) => !cur);
   return (
     <>
-      <React.Fragment>
-        <Button className="mx-10" onClick={handleOpen}>
-          Ver
-        </Button>
-        <Dialog
-          size="xl"
-          open={open}
-          handler={handleOpen}
-          className="bg-transparent shadow-none"
-        >
-          <Card className="mx-auto w-full max-w-[24rem]">
-            <CardHeader
-              variant="gradient"
-              color="blue"
-              className="mb-4 grid h-28 place-items-center"
-            >
-              <Typography variant="h3" color="white">
-                Estudiantes
-              </Typography>
-            </CardHeader>
-            <CardBody className="flex flex-col gap-4 ">
-              <DialogBody divider>
-                <p>Hugo Hernandez</p>
-                <p>Paco Jimenez</p>
-                <p>Luis Chaverra</p>
-              </DialogBody>
-            </CardBody>
-            <CardFooter className="pt-0">
-              <Button variant="gradient" onClick={handleOpen} fullWidth>
-                Cerrar
-              </Button>
-            </CardFooter>
-          </Card>
-        </Dialog>
-      </React.Fragment>
+      <Dialog
+        size="xl"
+        open={open}
+        handler={handleOpen}
+        className="bg-transparent shadow-none"
+      >
+        <Card className="mx-auto w-full max-w-[24rem]">
+          <CardHeader
+            variant="gradient"
+            color="blue"
+            className="mb-4 grid h-28 place-items-center"
+          >
+            <Typography variant="h3" color="white">
+              Estudiantes
+            </Typography>
+          </CardHeader>
+          <CardBody className="flex flex-col gap-4 ">
+            <DialogBody divider>
+              <p>Hugo Hernandez</p>
+              <p>Paco Jimenez</p>
+              <p>Luis Chaverra</p>
+            </DialogBody>
+          </CardBody>
+          <CardFooter className="pt-0">
+            <Button variant="gradient" onClick={handleOpen} fullWidth>
+              Cerrar
+            </Button>
+          </CardFooter>
+        </Card>
+      </Dialog>
     </>
   );
 };
