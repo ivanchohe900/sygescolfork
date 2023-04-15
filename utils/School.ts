@@ -4,6 +4,7 @@ const School = () => [
     label: "Escuela Superior Normal de Ibagué",
     value: 2,
     TipoColegio: "Antiguo",
+    relacion: "normalIbague",
   },
   { label: "I.E.T. Sagrada Familia", value: 1, TipoColegio: "Antiguo" },
   { label: "I.E.T. Joaquín París", value: 6, TipoColegio: "Nuevo" },
