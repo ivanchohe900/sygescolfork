@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { TiPlus } from "react-icons/ti";
 import ReactSelect from "react-select";
+import Swal from "sweetalert2";
 import { customStyles } from "../../../utils/CustomStylesTables";
 export type Props = {
   cga: number;
@@ -87,13 +88,23 @@ function Banco({ cga, escala, colegio, setShow, setCont, contador1 }: Props) {
   ];
   const handleSave = async () => {
     if (!values?.escala) {
-      alert(
-        "Debe seleccionar la Escala Nacional a la cual desea asociar el proceso"
-      );
+      Swal.fire({
+        icon: "warning",
+        title: "Señor Usuario",
+        text: "Es necesario que seleccione la escala nacional",
+        timer: 2500,
+        showConfirmButton: false,
+      });
       return false;
     }
     if (!values?.texto) {
-      alert("Debe ingresar el texto del proceso");
+      Swal.fire({
+        icon: "warning",
+        title: "Señor Usuario",
+        text: "Es necesario que ingrese el texto de la observación",
+        timer: 2500,
+        showConfirmButton: false,
+      });
       return false;
     }
     axios
@@ -101,7 +112,13 @@ function Banco({ cga, escala, colegio, setShow, setCont, contador1 }: Props) {
         `/api/ObservacionesProcesos/Banco/Save?colegio=${localStorage.colegio}&cga=${cga}&escala=${values.escala}&texto=${values.texto}`
       )
       .then((res: any) => {
-        alert(res.data?.body);
+        Swal.fire({
+          icon: "success",
+          title: res.data.body,
+          timer: 2500,
+          showConfirmButton: false,
+          position: "top-end",
+        });
         setContador(contador + 1);
         setShowModal(false);
       });
@@ -118,6 +135,7 @@ function Banco({ cga, escala, colegio, setShow, setCont, contador1 }: Props) {
   };
   function handleClick() {
     setShowModal(true);
+    setValues({ ...values, texto: null, escala: null });
   }
 
   return (
