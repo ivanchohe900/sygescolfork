@@ -42,8 +42,15 @@ function BodyComponent() {
   }, []);
   return (
     <>
-      {/* {data && <Cabecera data={data} />} */}
-      {(data && dataInfo && (
+      <div className="uppercase text-center font-bold lg:text-2xl py-4 bg-blue-900 text-white rounded-b-2xl">
+        Impresión de boletines de Preescolar
+      </div>
+      <div className="container mx-auto bg-light-blue-200 w-3/5 rounded-md mt-5">
+        <div className="text-2xl font-bold text-center p-2">
+          Seleccione el periodo al cual desea generar boletines
+        </div>
+      </div>
+      {/* {(data && dataInfo && (
         <PDFViewer style={{ width: "100%", height: "100Vh" }}>
           <Document>
             {dataInfo?.estudiante.map((inf: any, key: number) => {
@@ -73,7 +80,7 @@ function BodyComponent() {
           </Document>
         </PDFViewer>
       )) ||
-        "Cargando Información del Grupo"}
+        "Cargando Información del Grupo"} */}
     </>
   );
 }
