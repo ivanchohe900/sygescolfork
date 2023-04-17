@@ -1,4 +1,4 @@
-import { Image, Text, View } from "@react-pdf/renderer";
+import { Image, Page, Text, View } from "@react-pdf/renderer";
 import React from "react";
 export type Props = {
   dimensiones?: any;
@@ -29,7 +29,7 @@ function Dimension({ dimensiones, data }: Props) {
   ];
   const style: any = {
     table: {
-      display: "table" as any,
+      // display: "table" as any,
       width: "auto",
       heigth: "100%",
       borderStyle: "solid",
@@ -202,10 +202,15 @@ function Dimension({ dimensiones, data }: Props) {
                         {escala?.label || ""}
                       </Text>
                     </View>
-                    {procesos?.map((pro: any) => {
+                    {procesos?.map((pro: any, key3: number) => {
                       let escala2 = desempeño.find(
                         (des: any) => des.value == pro?.escala
                       );
+                      // let contador = key3;
+                      // if (contador == 2) {
+                      //   <Page />;
+                      //   contador = 0;
+                      // }
                       return (
                         <>
                           <View style={style.tableRow}>
@@ -233,14 +238,14 @@ function Dimension({ dimensiones, data }: Props) {
                                 marginTop: -1,
                               }}
                             >
-                              <Image
+                              {/* <Image
                                 src={`/Descriptores/${escala2?.img}.png`}
                                 style={{
                                   width: 50,
                                   height: 50,
                                   margin: "auto",
                                 }}
-                              />
+                              /> */}
                             </View>
                           </View>
                         </>
