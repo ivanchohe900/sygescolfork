@@ -12,6 +12,7 @@ export type Props = {
 };
 function ShowRegistro({ show, id, cga, type }: Props) {
   const [data, setData] = useState({} as any);
+  const [contador, setConteo] = useState(0 as number);
   let desempeño = [
     {
       value: 1,
@@ -50,6 +51,7 @@ function ShowRegistro({ show, id, cga, type }: Props) {
             )
             .then((res) => {
               if (res.status == 200) {
+                setConteo(contador + 1);
                 console.log(res.data);
                 Swal.fire({
                   icon: "success",
@@ -89,6 +91,7 @@ function ShowRegistro({ show, id, cga, type }: Props) {
             )
             .then((res) => {
               if (res.status == 200) {
+                setConteo(contador + 1);
                 console.log(res.data);
                 Swal.fire({
                   icon: "success",
@@ -195,7 +198,7 @@ function ShowRegistro({ show, id, cga, type }: Props) {
   ];
   useEffect(() => {
     getData();
-  }, []);
+  }, [contador]);
   return (
     <>
       <div className="bg-black/50 overflow-auto  transition duration-150 ease-in-out z-10 fixed top-0 right-0 bottom-0 left-0">
